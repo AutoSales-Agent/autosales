@@ -1,0 +1,56 @@
+services:
+  db:
+    image: mysql:8.4
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: autosales
+      TZ: Asia/Seoul
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-p${DB_PASSWORD}"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+
+  spring:
+    build:
+      context: ./spring/Backend/AutoSales_Agent
+      dockerfile: Dockerfile
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      #MYSQL_PASSWORD: ${DB_PASSWORD}
+      DB_PASSWORD: ${DB_PASSWORD}
+      MAIL_USERNAME: ${MAIL_USERNAME}
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
+      COMPANY_NAME: ${COMPANY_NAME}
+      SENDER_NAME: ${SENDER_NAME}
+      SENDER_EMAIL: ${MAIL_USERNAME}
+      AGENT_BASE_URL: http://agent:3000
+    ports:
+      - "8080:8080"
+
+  agent:
+    build: ./agent
+    depends_on:
+      - spring
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      SPRING_BASE_URL: http://spring:8080
+    ports:
+      - "3000:3000"

@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "rootDir": "src",
+    "outDir": "dist",
+    "strict": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "declaration": true,
+    "types": ["node"],
+    "plugins": [{ "transform": "typia/lib/transform" }]
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["dist", "node_modules", "Agentica", "**/agentica-ts/**"]
+}

@@ -1,0 +1,29 @@
+{
+  "name": "autosales-agent",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "dist/server.js",
+  "scripts": {
+    "dev": "tsx src/server.ts",
+    "start": "tsx src/server.ts",
+    "build": "tsc",
+    "prepare": "ts-patch install",
+    "start:prod": "node dist/server.js"
+  },
+  "dependencies": {
+    "@agentica/core": "latest",
+    "axios": "^1.6.8",
+    "dotenv": "^16.3.1",
+    "express": "^5.1.0",
+    "typia": "^9.6.0",
+    "open": "^10.2.0",
+    "openai": "^5.10.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/node": "^20.0.0",
+    "ts-patch": "^3.3.0",
+    "tsx": "^4.7.0",
+    "typescript": "~5.8.3"
+  }
+}
