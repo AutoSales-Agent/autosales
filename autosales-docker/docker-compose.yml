@@ -22,7 +22,7 @@ services:
 
   spring:
     build:
-      context: ./spring/Backend/AutoSales_Agent
+      context: ./spring
       dockerfile: Dockerfile
     depends_on:
       db:
@@ -35,6 +35,8 @@ services:
       REDIS_HOST: redis
       REDIS_PORT: 6379
       #MYSQL_PASSWORD: ${DB_PASSWORD}
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
       DB_PASSWORD: ${DB_PASSWORD}
       MAIL_USERNAME: ${MAIL_USERNAME}
       MAIL_PASSWORD: ${MAIL_PASSWORD}
